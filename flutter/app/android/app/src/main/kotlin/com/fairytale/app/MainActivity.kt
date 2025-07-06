@@ -1,0 +1,5 @@
+package com.fairytale.app
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()

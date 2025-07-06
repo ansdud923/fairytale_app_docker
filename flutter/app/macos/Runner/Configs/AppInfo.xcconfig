@@ -1,0 +1,20 @@
+// Application-level settings for the Runner target.
+//
+// This may be replaced with something auto-generated from metadata (e.g., pubspec.yaml) in the
+// future. If not, the values below would default to using the project name when this becomes a
+// 'flutter create' template.
+
+// The application's name. By default this is also the title of the Flutter window.
+PRODUCT_NAME = app
+
+// The application's bundle identifier
+PRODUCT_BUNDLE_IDENTIFIER = com.example.app
+
+// The copyright displayed in application information
+PRODUCT_COPYRIGHT = Copyright © 2025 com.example. All rights reserved.
+
+// macOS 배포 타겟 설정
+MACOSX_DEPLOYMENT_TARGET = 10.15
+
+// CocoaPods 설정 포함 (이 줄들 중 하나가 작동하는 것을 사용)
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"

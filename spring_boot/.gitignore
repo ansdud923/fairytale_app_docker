@@ -1,0 +1,90 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+**/.env
+.env
+.env.*
+!.env.example
+.vscode/
+**/application.yml
+
+########################################
+# ✅ Python
+########################################
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# 가상환경
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+
+########################################
+# ✅ Flutter
+########################################
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+flutter_*.png
+
+# iOS/Android 캐시 및 바이너리
+*.lock
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/DerivedData/
+android/.gradle/
+android/app/build/
+
+# Flutter 환경설정
+.flutter-plugins
+.flutter-plugins-dependencies
+.melos_tool/
+
+########################################
+# ✅ 공통 캐시 및 시스템
+########################################
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

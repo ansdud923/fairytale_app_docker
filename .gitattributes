@@ -1,0 +1,52 @@
+# Python virtual environment 완전 제외
+python/venv/** linguist-vendored
+venv/** linguist-vendored
+env/** linguist-vendored
+
+# 바이너리 파일들 제외 (C 언어로 잘못 인식되는 파일들)
+*.so linguist-vendored
+*.dylib linguist-vendored
+*.dll linguist-vendored
+*.a linguist-vendored
+*.o linguist-vendored
+*.pyd linguist-vendored
+*.so.* linguist-vendored
+
+# C/C++ 헤더 파일들도 제외
+*.h linguist-vendored
+*.hpp linguist-vendored
+*.c linguist-vendored
+*.cpp linguist-vendored
+
+# Python 컴파일된 파일들
+*.pyc linguist-vendored
+__pycache__/** linguist-vendored
+
+# Flutter/Dart 생성 파일들
+*.g.dart linguist-generated
+*.freezed.dart linguist-generated
+*.config.dart linguist-generated
+
+# 기타 라이브러리 파일들 제외
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+node_modules/** linguist-vendored
+
+# 설정 파일들 언어 감지에서 제외
+*.json linguist-detectable=false
+*.yml linguist-detectable=false
+*.yaml linguist-detectable=false
+*.xml linguist-detectable=false
+*.gradle linguist-detectable=false
+
+# 문서 파일들
+*.md linguist-documentation
+docs/** linguist-documentation
+README* linguist-documentation
+
+# 언어 강제 지정 (가장 중요!)
+*.dart linguist-language=Dart
+*.java linguist-language=Java  
+*.py linguist-language=Python
+*.js linguist-language=JavaScript
+*.ts linguist-language=TypeScript
