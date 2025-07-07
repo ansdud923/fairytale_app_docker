@@ -8,18 +8,31 @@ import 'package:http_parser/http_parser.dart';
 
 class ApiService {
   // 🚀 플랫폼에 따라 자동으로 서버 주소 선택
-  static String get baseUrl {
-    return 'http://3.36.41.71:8080'; // EC2 서버 IP
-    // if (Platform.isAndroid) {
-    //   return 'http://10.0.2.2:8080'; // Android 에뮬레이터
-    // } else if (Platform.isIOS) {
-    //   return 'http://localhost:8080'; // iOS 시뮬레이터
-    // } else if (Platform.isMacOS) {
-    //   return 'http://localhost:8080'; // macOS
-    // } else {
-    //   return 'http://localhost:8080'; // 기본값
-    // }
+  static const String _productionUrl = 'http://fairytale-alb-540666853.ap-northeast-2.elb.amazonaws.com';
+
+  // 🔧 개발/테스트용 로컬 주소
+  static String get _localUrl {
+    if (Platform.isAndroid) {
+      return 'http://10.0.2.2:8080'; // Android 에뮬레이터
+    } else if (Platform.isIOS) {
+      return 'http://localhost:8080'; // iOS 시뮬레이터
+    } else {
+      return 'http://localhost:8080'; // 기본값
+    }
   }
+
+  // 🎯 환경에 따라 자동 선택
+  static String get baseUrl {
+    // 배포 환경 사용 (true로 변경하면 운영 서버 사용)
+    const bool useProduction = true; // ← 이제 true로 변경!
+
+    return useProduction ? _productionUrl : _localUrl;
+  }
+
+  // 🔗 각 서비스별 URL
+  static String get springBootUrl => '$_productionUrl:8080';
+  static String get fastApiUrl => '$_productionUrl:8000';
+
 
   static final Dio _dio = Dio(
     BaseOptions(

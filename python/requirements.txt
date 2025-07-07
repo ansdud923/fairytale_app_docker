@@ -1,26 +1,31 @@
+# 웹 프레임워크
 streamlit>=1.13.0
-openai>=1.0.0
-altair>=4.2.0
-duckduckgo_search>=6.2.0,<7.0.0
-playsound>=1.2.2
-python-dotenv>=0.19.0
 fastapi>=0.115.12
-youtube_search>=2.1.2
+uvicorn[standard]>=0.24.0
+
+# AI/ML 라이브러리
+openai>=1.0.0
 langchain>=0.3.25
 langchain-community>=0.3.24
-Pillow>=10.1.0
-numpy>=1.26.2
 
-# 🎬 비디오 처리를 위한 추가 라이브러리
-moviepy>=1.0.3
-imageio>=2.31.1
-imageio-ffmpeg>=0.4.9
+# 데이터 처리
+altair>=4.2.0
+python-dotenv>=0.19.0
+
+# 검색 및 유틸리티
+duckduckgo_search>=6.2.0,<7.0.0
+youtube_search>=2.1.2
 
 # 오디오 처리
+playsound>=1.2.2
 pydub>=0.25.1
 
-# 이미지 처리
+# HTTP 및 파일 처리
+python-multipart>=0.0.6
+aiofiles>=23.0.0
 
-# ✅ HTTP 요청을 위한 라이브러리 추가
+# OpenCV (MoviePy 관련 패키지들은 Dockerfile에서 별도 설치)
+opencv-python-headless>=4.11.0.86
+
+# 기타
 requests>=2.31.0
-opencv-python>=4.11.0.86

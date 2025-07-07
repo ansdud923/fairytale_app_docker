@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -44,8 +45,11 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
 
+	// AWS Secrets Manager 추가
+	implementation 'software.amazon.awssdk:secretsmanager:2.20.0'
+	implementation 'software.amazon.awssdk:sts:2.20.0'
 
-	// AWS S3 의존성 추가
+	// AWS S3 의존성 (기존 유지)
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.565'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
