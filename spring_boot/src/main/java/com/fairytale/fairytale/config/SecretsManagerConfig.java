@@ -3,6 +3,7 @@ package com.fairytale.fairytale.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
@@ -12,6 +13,7 @@ import jakarta.annotation.PostConstruct;
 import java.util.Map;
 
 @Configuration
+@Order(1)
 public class SecretsManagerConfig {
 
     @Value("${AWS_SECRET_NAME:fairytale-secrets}")

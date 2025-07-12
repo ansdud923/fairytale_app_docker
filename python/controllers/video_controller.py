@@ -7,19 +7,33 @@ from langchain.tools import DuckDuckGoSearchRun
 from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
 
-load_dotenv()  # .env 파일에서 환경변수 로드
+# ===== 수정된 부분: Secrets Manager 사용 =====
+try:
+    # 운영 환경에서는 Secrets Manager 사용
+    from utils.secrets import get_google_api_key
+    print("🔐 Secrets Manager에서 Google API 키 로드 시도...")
+    
+    google_api_key = get_google_api_key()
+    
+    if not google_api_key:
+        print("⚠️ Secrets Manager에서 Google API 키를 찾을 수 없음, .env 파일 시도...")
+        raise ImportError("Secrets Manager 연결 실패")
+    else:
+        print("✅ Secrets Manager에서 Google API 키 로드 성공!")
+        
+except (ImportError, Exception) as e:
+    # 개발 환경이나 Secrets Manager 실패 시 .env 파일 사용
+    print(f"🔄 .env 파일에서 Google API 키 로드 중... ({e})")
+    load_dotenv()
+    
+    google_api_key = os.getenv('GOOGLE_API_KEY')
 
-# GOOGLE API 키 가져오기
-google_api_key = os.getenv('GOOGLE_API_KEY')
+# API 키 검증 (에러 발생시키지 않고 경고만)
+if not google_api_key:
+    print("⚠️ Google API Key가 설정되지 않았습니다. 비디오 검색 기능이 제한될 수 있습니다.")
+    google_api_key = ""
 
-## 1. 변수에 값 할당하기
-# google_api_key = st.secrets["GOOGLE"]["GOOGLE_API_KEY"]
-
-## 2. 값이 없으면 에러 처리
-# if not google_api_key:
-#     raise ValueError("환경변수 'GOOGLE_API_KEY'가 설정되지 않았습니다.")
-
-
+print(f"📺 Google API 상태: {'✅' if google_api_key else '❌'}")
 
 # 테마 목록과 키워드 매칭
 THEME_KEYWORDS = {
@@ -32,6 +46,11 @@ THEME_KEYWORDS = {
 }
 
 def search_videos(theme):
+    # API 키 확인
+    if not google_api_key:
+        print("❌ Google API 키가 설정되지 않았습니다.")
+        return []
+        
     keyword = THEME_KEYWORDS.get(theme, "")
     if not keyword:
         return []
@@ -42,29 +61,33 @@ def search_videos(theme):
         f"?part=snippet&maxResults=5&type=video&q={query}&key={google_api_key}"
     )
 
-    response = requests.get(url)
+    try:
+        response = requests.get(url, timeout=10)
 
-    # 응답코드가 200이 아닐 때 (응답 실패)
-    if response.status_code != 200:
-        print(f"YouTube API 요청 실패: {response.status_code}")
+        # 응답코드가 200이 아닐 때 (응답 실패)
+        if response.status_code != 200:
+            print(f"❌ YouTube API 요청 실패: {response.status_code}")
+            return []
+        
+        data = response.json()
+        results = []
+
+        for item in data.get("items", []):
+            video_id = item["id"]["videoId"]
+            title = item["snippet"]["title"]
+            thumbnail = item["snippet"]["thumbnails"]["medium"]["url"]
+            video_url = f"https://www.youtube.com/watch?v={video_id}"
+
+            results.append({
+                "title": title,
+                "url": video_url,
+                "thumbnail": thumbnail
+            })
+
+        return results
+    except Exception as e:
+        print(f"❌ YouTube API 오류: {e}")
         return []
-    
-    data = response.json()
-    results = []
-
-    for item in data.get("items", []):
-        video_id = item["id"]["videoId"]
-        title = item["snippet"]["title"]
-        thumbnail = item["snippet"]["thumbnails"]["medium"]["url"]
-        video_url = f"https://www.youtube.com/watch?v={video_id}"
-
-        results.append({
-            "title": title,
-            "url": video_url,
-            "thumbnail": thumbnail
-        })
-
-    return results
         
 
 # controllers/video_controller.py (기존 파일에 아래 내용 추가)
@@ -255,5 +278,3 @@ def download_file_from_url(url: str, temp_dir: str, file_type: str) -> str:
     except Exception as e:
         logger.error(f"❌ 파일 다운로드 실패 ({url}): {str(e)}")
         raise Exception(f"파일 다운로드 실패: {str(e)}")
-
-
